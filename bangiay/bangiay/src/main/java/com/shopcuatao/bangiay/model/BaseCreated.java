@@ -10,7 +10,6 @@ import java.time.LocalTime;
 
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @MappedSuperclass

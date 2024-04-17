@@ -18,7 +18,7 @@ public class ProductImages {
 
     @ManyToOne
     @JoinColumn(name = "product_detail_id")
-    private ProductDetails productDetails;
+    private ProductDetails productDetailsId;
 
     @Column(name = "image_url")
     private String url;
