@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface OrderdetailRepo extends JpaRepository<OrderDetails,Integer> {
-    List<OrderDetails> findByOrderId(int id);
+    List<OrderDetails> findAllByOrders_Id(int orderId);
+
 }

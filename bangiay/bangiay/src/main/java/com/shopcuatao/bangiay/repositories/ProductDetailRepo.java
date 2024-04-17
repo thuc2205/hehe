@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProductDetailRepo extends JpaRepository<ProductDetails,Integer> {
 
-    Page<ProductDetails> finAll(Pageable pageable);
+    Page<ProductDetails> findAll(Pageable pageable);
 }
