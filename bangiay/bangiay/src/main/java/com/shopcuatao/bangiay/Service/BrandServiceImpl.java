@@ -48,6 +48,7 @@ public class BrandServiceImpl implements IBrandService{
     }
 
     @Override
+    @Transactional
     public void delete(int id) {
         Brand existingBrand = getById(id);
         brandRepo.delete(existingBrand);

@@ -3,6 +3,7 @@ package com.shopcuatao.bangiay.Service;
 import com.shopcuatao.bangiay.dtos.ProductDTO;
 import com.shopcuatao.bangiay.model.Products;
 import com.shopcuatao.bangiay.repositories.ProductRepo;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.concurrent.CompletableFuture;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements IProductService{
     private final ProductRepo productRepo;
+    @Transactional
     @Override
     public Products create(ProductDTO productDTO) {
         Products products = Products.builder()
@@ -46,13 +48,14 @@ public class ProductServiceImpl implements IProductService{
         return CompletableFuture.completedFuture(productRepo.findAll());
     }
 
+    @Transactional
     @Override
     public Products update(int id, ProductDTO productDTO) {
         Products existingProduct = getById(id);
         existingProduct.setName(productDTO.getName());
         return existingProduct;
     }
-
+    @Transactional
     @Override
     public void delete(int id) {
         Products existingProduct = getById(id);

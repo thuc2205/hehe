@@ -39,7 +39,7 @@ public class ColorServiceImpl implements IColorService{
         existingColor.setName(colorDTO.getName());
         return existingColor;
     }
-
+    @Transactional
     @Override
     public void delete(int id) {
         Colors existingColor = getById(id);

@@ -50,6 +50,7 @@ public class SizeServiceImpl implements ISizeService{
         return existingSize;
     }
 
+    @Transactional
     @Override
     public void deleteSize(int id) {
         sizeRepo.deleteById(id);

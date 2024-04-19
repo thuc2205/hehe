@@ -9,7 +9,6 @@ import lombok.*;
 @Setter
 @Builder
 public class ProductDTO {
+
     private String name;
-    @JsonProperty("code_product")
-    private String codeProduct;
 }

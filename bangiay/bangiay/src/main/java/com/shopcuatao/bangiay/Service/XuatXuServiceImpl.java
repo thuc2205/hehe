@@ -42,7 +42,7 @@ public class XuatXuServiceImpl implements IXuatXuService{
         existingXuatXua.setName(xuatXuDTO.getName());
         return existingXuatXua;
     }
-
+    @Transactional
     @Override
     public void delete(int id) {
 
