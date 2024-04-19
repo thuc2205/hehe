@@ -3,17 +3,21 @@ package com.shopcuatao.bangiay.Service;
 import com.shopcuatao.bangiay.dtos.SizeDTO;
 import com.shopcuatao.bangiay.model.Sizes;
 import com.shopcuatao.bangiay.repositories.SizeRepo;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.lang.module.ResolutionException;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
 public class SizeService implements ISizeService{
     private final SizeRepo sizeRepo;
 
+    @Transactional
     @Override
     public Sizes createSize(SizeDTO sizeDTO) {
         Sizes sizes = Sizes.builder()
@@ -28,11 +32,17 @@ public class SizeService implements ISizeService{
                 .orElseThrow(() -> new ResolutionException("Deo Tim Thay Size"));
     }
 
+    @Async("asyncExecutor")
+    public CompletableFuture<List<Sizes>> getAllSizeAsync() {
+        return CompletableFuture.completedFuture(sizeRepo.findAll());
+    }
+
     @Override
     public List<Sizes> getAllSize() {
         return sizeRepo.findAll();
     }
 
+    @Transactional
     @Override
     public Sizes updateSize(int id, SizeDTO sizes) {
         Sizes existingSize = getSizeById(id);

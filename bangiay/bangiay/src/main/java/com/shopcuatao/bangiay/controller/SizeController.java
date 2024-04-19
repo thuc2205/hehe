@@ -2,6 +2,7 @@ package com.shopcuatao.bangiay.controller;
 
 import com.shopcuatao.bangiay.Service.SizeService;
 import com.shopcuatao.bangiay.dtos.SizeDTO;
+import com.shopcuatao.bangiay.model.Sizes;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("${api.prefix}/size")
@@ -28,19 +30,23 @@ public class SizeController {
         return ResponseEntity.ok(sizeDTO);
     }
     @GetMapping("")
-    public ResponseEntity<?> getAllSize(
+    public CompletableFuture<ResponseEntity<?>> getAllSize(
             @RequestParam("page") int page,
             @RequestParam("limit") int limit
     ){
-        return ResponseEntity.ok("lay ds thanh cong");
+        CompletableFuture<List<Sizes>> futureList = sizeService.getAllSizeAsync();
+        return futureList.thenApply(list -> ResponseEntity.ok(list));
     }
     @PutMapping({"/{id}"})
     public ResponseEntity<?> updateSize(@PathVariable int id, @RequestBody SizeDTO sizeDTO){
-        return ResponseEntity.ok("update Thành Công");
+       Sizes sizes= sizeService.updateSize(id,sizeDTO);
+        return ResponseEntity.ok(sizes);
     }
 
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteSize(@PathVariable int id){
+    public ResponseEntity<?> deleteSize(@PathVariable int id,@RequestBody SizeDTO sizeDTO){
+        sizeService.deleteSize(id);
         return ResponseEntity.ok("Xóa Thành Công");
     }
 
