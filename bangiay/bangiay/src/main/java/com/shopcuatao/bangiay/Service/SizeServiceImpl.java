@@ -14,7 +14,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
-public class SizeService implements ISizeService{
+public class SizeServiceImpl implements ISizeService{
     private final SizeRepo sizeRepo;
 
     @Transactional

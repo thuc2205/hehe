@@ -1,6 +1,6 @@
 package com.shopcuatao.bangiay.controller;
 
-import com.shopcuatao.bangiay.Service.SizeService;
+import com.shopcuatao.bangiay.Service.SizeServiceImpl;
 import com.shopcuatao.bangiay.dtos.SizeDTO;
 import com.shopcuatao.bangiay.model.Sizes;
 import jakarta.validation.Valid;
@@ -17,7 +17,7 @@ import java.util.concurrent.CompletableFuture;
 @RequestMapping("${api.prefix}/size")
 @RequiredArgsConstructor
 public class SizeController {
-    private final SizeService sizeService;
+    private final SizeServiceImpl sizeService;
     @PostMapping("")
     public ResponseEntity<?> createCategory(@Valid  @RequestBody SizeDTO sizeDTO, BindingResult result){
         if(result.hasErrors()){
