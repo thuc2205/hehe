@@ -2,7 +2,6 @@ package com.shopcuatao.bangiay.Service;
 
 import com.shopcuatao.bangiay.dtos.BrandDTO;
 import com.shopcuatao.bangiay.model.Brand;
-import com.shopcuatao.bangiay.model.Sizes;
 import com.shopcuatao.bangiay.repositories.BrandRepo;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

@@ -3,16 +3,21 @@ package com.shopcuatao.bangiay.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
+@Builder
 @Table(name = "product_detail")
-public class ProductDetails extends BaseCreated{
+public class ProductDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
     @ManyToOne
@@ -51,8 +56,22 @@ public class ProductDetails extends BaseCreated{
     @Column(name = "price")
     private Float price;
 
+    @Column(name = "create_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "update_at")
+    private LocalDateTime updatedAt;
 
 
+    @PrePersist
+    protected void onCreate(){
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+    @PreUpdate
+    protected  void onUpdate(){
+        updatedAt = LocalDateTime.now();
+    }
 
 
 
