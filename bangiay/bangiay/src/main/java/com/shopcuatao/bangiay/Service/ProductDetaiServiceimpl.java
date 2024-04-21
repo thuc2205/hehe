@@ -25,6 +25,7 @@ public class ProductDetaiServiceimpl implements IProductDetailService{
     private final ProductRepo productRepo;
     private final CategoryRepo categoryRepo;
     private final ProductDetailRepo productDetailRepo;
+    private final ProductImageRepo productImageRepo;
     @Override
     @Transactional
     public ProductDetails create(ProductDetailDTO productDetailDTO) throws Exception {
@@ -51,6 +52,23 @@ public class ProductDetaiServiceimpl implements IProductDetailService{
 
         return productDetailRepo.save(newProductDetail);
     }
+    @Transactional
+    @Override
+    public ProductImages createProductImage(int productdetailId, ProductImageDTO productImageDTO) throws IllegalAccessException {
+        ProductDetails existingProducts = productDetailRepo.findById(productdetailId)
+                .orElseThrow(() -> new ResolutionException("deo tim thay voi id : "
+                        +productImageDTO.getProductDetailId()));
+        ProductImages newProductImages = ProductImages.builder()
+                .productDetails(existingProducts)
+                .url(productImageDTO.getImageUrl())
+                .build();
+        int sizeImage = productImageRepo.findByProductDetailsId(productdetailId).size();
+        if(sizeImage > 5){
+            throw new IllegalAccessException("Anh > 5");
+        }
+
+        return productImageRepo.save(newProductImages);
+    }
 
     @Override
     public Page<ProductDetails> getAllProduct(PageRequest pageRequest) {
@@ -63,7 +81,8 @@ public class ProductDetaiServiceimpl implements IProductDetailService{
     }
 
     @Override
-    public ProductImages createProductImage(int productId, ProductImageDTO productImageDTO) {
-        return null;
+    public ProductDetails getProductsById(int productId) {
+        return productDetailRepo.findById(productId).orElseThrow(() -> new ResolutionException("Khong tim thay product Id "));
     }
+
 }

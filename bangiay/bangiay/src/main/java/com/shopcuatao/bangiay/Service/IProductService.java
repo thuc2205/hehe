@@ -2,7 +2,9 @@ package com.shopcuatao.bangiay.Service;
 
 import com.shopcuatao.bangiay.dtos.ColorDTO;
 import com.shopcuatao.bangiay.dtos.ProductDTO;
+import com.shopcuatao.bangiay.dtos.ProductImageDTO;
 import com.shopcuatao.bangiay.model.Colors;
+import com.shopcuatao.bangiay.model.ProductImages;
 import com.shopcuatao.bangiay.model.Products;
 
 import java.util.List;
@@ -18,4 +20,6 @@ public interface IProductService {
     Products update(int id , ProductDTO productDTO);
 
     void delete(int id);
+
+//    public ProductImages createProductImage(int productdetailId, ProductImageDTO productImageDTO);
 }

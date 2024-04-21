@@ -16,5 +16,7 @@ public interface IProductDetailService {
 
     public List<ProductDetails> findProductsById(List<Integer> productId);
 
-    ProductImages createProductImage(int productId, ProductImageDTO productImageDTO);
+    public ProductDetails getProductsById(int productId);
+
+    ProductImages createProductImage(int productId, ProductImageDTO productImageDTO) throws IllegalAccessException;
 }

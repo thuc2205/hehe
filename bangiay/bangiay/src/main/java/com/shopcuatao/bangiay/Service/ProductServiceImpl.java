@@ -1,6 +1,9 @@
 package com.shopcuatao.bangiay.Service;
 
 import com.shopcuatao.bangiay.dtos.ProductDTO;
+import com.shopcuatao.bangiay.dtos.ProductImageDTO;
+import com.shopcuatao.bangiay.model.ProductDetails;
+import com.shopcuatao.bangiay.model.ProductImages;
 import com.shopcuatao.bangiay.model.Products;
 import com.shopcuatao.bangiay.repositories.ProductRepo;
 import jakarta.transaction.Transactional;
@@ -61,4 +64,6 @@ public class ProductServiceImpl implements IProductService{
         Products existingProduct = getById(id);
         productRepo.delete(existingProduct);
     }
+
+
 }
