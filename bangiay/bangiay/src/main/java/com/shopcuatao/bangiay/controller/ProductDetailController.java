@@ -1,13 +1,11 @@
 package com.shopcuatao.bangiay.controller;
 
 import com.shopcuatao.bangiay.Service.ProductDetaiServiceimpl;
-import com.shopcuatao.bangiay.dtos.ProductDTO;
 import com.shopcuatao.bangiay.dtos.ProductDetailDTO;
 import com.shopcuatao.bangiay.dtos.ProductImageDTO;
 import com.shopcuatao.bangiay.model.ProductDetails;
 import com.shopcuatao.bangiay.model.ProductImages;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.http.fileupload.impl.IOFileUploadException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -16,7 +14,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,7 +22,6 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 @RestController
     @RequestMapping("${api.prefix}/productDetail")

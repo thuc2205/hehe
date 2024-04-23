@@ -6,6 +6,7 @@ import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -21,8 +22,8 @@ public class ProductDetails{
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Products products;
+    @JoinColumn(name = "category_id")
+    private Categories categories;
 
     @ManyToOne
     @JoinColumn(name = "color_id")
@@ -31,10 +32,6 @@ public class ProductDetails{
     @ManyToOne
     @JoinColumn(name = "size_id")
     private Sizes sizes;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Categories categories;
 
     @ManyToOne
     @JoinColumn(name = "brand_id")
@@ -62,7 +59,8 @@ public class ProductDetails{
     @Column(name = "update_at")
     private LocalDateTime updatedAt;
 
-
+    @OneToMany(mappedBy = "productDetails")
+    private List<ProductImages> productImages;
     @PrePersist
     protected void onCreate(){
         createdAt = LocalDateTime.now();

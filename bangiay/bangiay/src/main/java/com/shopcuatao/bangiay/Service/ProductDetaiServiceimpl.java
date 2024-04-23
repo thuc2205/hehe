@@ -22,34 +22,32 @@ public class ProductDetaiServiceimpl implements IProductDetailService{
     private final ColorRepo colorRepo;
     private final XuatXuRepo xuatXuRepo;
     private final SizeRepo sizeRepo;
-    private final ProductRepo productRepo;
     private final CategoryRepo categoryRepo;
     private final ProductDetailRepo productDetailRepo;
     private final ProductImageRepo productImageRepo;
     @Override
     @Transactional
     public ProductDetails create(ProductDetailDTO productDetailDTO) throws Exception {
-        Products product = productRepo.findById(productDetailDTO.getProductID())
-                .orElseThrow(() -> new ResolutionException("Khong thay product id : " + productDetailDTO.getProductID()));
+        Categories categories = categoryRepo.findById(productDetailDTO.getCategoryId())
+                .orElseThrow(() ->
+                        new ResolutionException("Khong tim thay voi id : "+productDetailDTO.getCategoryId()));
+
         Colors color = colorRepo.findById(productDetailDTO.getColorId()).orElse(null);
         Brand brand = brandRepo.findById(productDetailDTO.getBrandId()).orElse(null);
         Sizes size = sizeRepo.findById(productDetailDTO.getSizeId()).orElse(null);
         XuatXu xuatXu = xuatXuRepo.findById(productDetailDTO.getXuatxuId()).orElse(null);
-        Categories categories = categoryRepo.findById(productDetailDTO.getCategoryId()).orElse(null);
 
         ProductDetails newProductDetail = ProductDetails.builder()
-                .products(product)
+                .categories(categories)
                 .colors(color)
                 .brand(brand)
                 .sizes(size)
                 .xuatXu(xuatXu)
                 .price(productDetailDTO.getPrice())
-                .categories(categories)
                 .quantity(productDetailDTO.getQuantity())
                 .description(productDetailDTO.getDescription())
                 .thumbnail("")
                 .build();
-
         return productDetailRepo.save(newProductDetail);
     }
     @Transactional
