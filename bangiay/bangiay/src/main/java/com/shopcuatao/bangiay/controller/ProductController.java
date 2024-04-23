@@ -5,6 +5,7 @@ import com.shopcuatao.bangiay.dtos.ProductDTO;
 import com.shopcuatao.bangiay.model.Products;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -28,13 +29,14 @@ public class ProductController {
         productService.create(productDTO);
         return ResponseEntity.ok(productDTO);
     }
-    @GetMapping("")
-    public CompletableFuture<ResponseEntity<?>> getAll(
-            @RequestParam("page") int page,
-            @RequestParam("limit") int limit
-    ){
+    @GetMapping("/list")
+    public CompletableFuture<String> getAll(Model model
+                                                       ){
         CompletableFuture<List<Products>> listCompletableFuture = productService.getAll();
-        return listCompletableFuture.thenApply(list -> ResponseEntity.ok(listCompletableFuture));
+        return listCompletableFuture.thenApply(list -> {
+            model.addAttribute("products", list);
+            return "/templates/index.html";
+        });
     }
     @PutMapping({"/{id}"})
     public ResponseEntity<?> update(@PathVariable int id, @RequestBody ProductDTO productDTO){
