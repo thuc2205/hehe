@@ -4,6 +4,7 @@ import com.shopcuatao.bangiay.dtos.ProductDetailDTO;
 import com.shopcuatao.bangiay.dtos.ProductImageDTO;
 import com.shopcuatao.bangiay.model.*;
 import com.shopcuatao.bangiay.repositories.*;
+import com.shopcuatao.bangiay.responese.ProductResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -38,6 +39,7 @@ public class ProductDetaiServiceimpl implements IProductDetailService{
         XuatXu xuatXu = xuatXuRepo.findById(productDetailDTO.getXuatxuId()).orElse(null);
 
         ProductDetails newProductDetail = ProductDetails.builder()
+                .name(productDetailDTO.getName())
                 .categories(categories)
                 .colors(color)
                 .brand(brand)
@@ -69,8 +71,8 @@ public class ProductDetaiServiceimpl implements IProductDetailService{
     }
 
     @Override
-    public Page<ProductDetails> getAllProduct(PageRequest pageRequest) {
-        return null;
+    public Page<ProductResponse> getAllProduct(PageRequest pageRequest) {
+        return productDetailRepo.findAll(pageRequest).map(ProductResponse::fromProduct);
     }
 
     @Override

@@ -11,8 +11,8 @@ import lombok.*;
 @Setter
 @Builder
 public class ProductDetailDTO {
-    @JsonProperty("product_id")
-    private int productID;
+
+    private String name;
 
     @JsonProperty("color_id")
     private int colorId;

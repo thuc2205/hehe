@@ -17,6 +17,7 @@ public class VoucherDTO {
     @NotNull(message = "Khong trong ma voucher")
     private String codeVoucher;
 
+    @NotNull(message = "Khong trong name voucher")
     @JsonProperty("name_km")
     private String nameKm;
 
@@ -24,9 +25,11 @@ public class VoucherDTO {
     @Min(value = 0,message = "gia tri toi thieu lon hon > 0")
     private Float giaTriToiThieu;
 
+    @NotNull(message = "Khong trong giamGia voucher")
     @JsonProperty("giam_gia")
     private Float giamGia;
 
+    @Min(value = 1,message = "gia tri toi thieu lon hon > 1")
     private int quantify;
 
     @JsonProperty("start_day")

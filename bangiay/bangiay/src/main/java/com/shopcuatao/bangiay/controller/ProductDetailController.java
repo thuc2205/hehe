@@ -5,7 +5,12 @@ import com.shopcuatao.bangiay.dtos.ProductDetailDTO;
 import com.shopcuatao.bangiay.dtos.ProductImageDTO;
 import com.shopcuatao.bangiay.model.ProductDetails;
 import com.shopcuatao.bangiay.model.ProductImages;
+import com.shopcuatao.bangiay.responese.ProductListRespones;
+import com.shopcuatao.bangiay.responese.ProductResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -29,6 +34,29 @@ import java.util.Objects;
 public class ProductDetailController {
 
     private final ProductDetaiServiceimpl productDetaiServiceimpl;
+
+    @GetMapping("")
+    public ResponseEntity<ProductListRespones>getAll(
+            @RequestParam(defaultValue = "0",name = "category_id")int categoryId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "9") int limit
+    ){
+        PageRequest pageRequest;
+        if(categoryId==0){
+            pageRequest = PageRequest.of(page,limit);
+        }else{
+            pageRequest= PageRequest.of(page,limit, Sort.by("id").ascending());
+        }
+        Page<ProductResponse> productPage = productDetaiServiceimpl.getAllProduct(pageRequest);
+        int totalPage= productPage.getTotalPages();
+        List<ProductResponse> list = productPage.getContent();
+        return ResponseEntity.ok(ProductListRespones.builder()
+                        .productResponses(list)
+                        .totalPage(totalPage)
+                .build());
+    }
+
+
     @PostMapping("")
     public ResponseEntity<?> createProductDetail(@RequestBody ProductDetailDTO productDetailDTO, BindingResult result) throws Exception {
         if(result.hasErrors()){

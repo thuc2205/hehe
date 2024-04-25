@@ -52,6 +52,8 @@ public class ProductDetails{
 
     @Column(name = "price")
     private Float price;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "create_at")
     private LocalDateTime createdAt;
