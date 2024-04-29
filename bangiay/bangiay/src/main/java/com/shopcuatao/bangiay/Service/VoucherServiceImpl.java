@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
@@ -20,6 +22,13 @@ public class VoucherServiceImpl implements IVoucherService{
     @Transactional
     public Voucher create(VoucherDTO voucherDTO) {
         try {
+            Date now = new Date();
+            if (voucherDTO.getStartDay().after(now)) {
+                throw new IllegalArgumentException("Ngày bắt đầu phải nhỏ hơn hoặc bằng ngày hiện tại");
+            }
+            if (voucherDTO.getEndDay().before(now)) {
+                throw new IllegalArgumentException("Ngày kết thúc phải lớn hơn ngày hiện tại");
+            }
             if (voucherDTO.getStartDay().after(voucherDTO.getEndDay())) {
                 throw new IllegalArgumentException("Ngày bắt đầu phải nhỏ hơn hoặc bằng ngày kết thúc");
             }
@@ -28,20 +37,21 @@ public class VoucherServiceImpl implements IVoucherService{
             }
             Voucher voucher = Voucher.builder()
                     .codeVoucher(rollCodeVoucher())
-                    .namKm(voucherDTO.getCodeVoucher())
+                    .namKm(voucherDTO.getNameKm())
                     .quantify(voucherDTO.getQuantify())
                     .giaTriToiThieu(voucherDTO.getGiaTriToiThieu())
                     .giamGia(voucherDTO.getGiamGia())
-                    .starDay(voucherDTO.getEndDay())
+                    .starDay(voucherDTO.getStartDay())
                     .endDay(voucherDTO.getEndDay())
                     .status("tạo mới")
                     .build();
            return voucherRepo.save(voucher);
         }catch (Exception e){
-            e.printStackTrace();;
+            e.printStackTrace();
+            throw e;
 
         }
-        return null;
+
     }
 
     private String rollCodeVoucher() {

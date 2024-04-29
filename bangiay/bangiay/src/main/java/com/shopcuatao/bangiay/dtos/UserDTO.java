@@ -13,10 +13,10 @@ import java.util.Date;
 @Setter
 @Builder
 public class UserDTO {
-    @NotBlank(message = "Khong trong fullname")
     @JsonProperty("full_name")
     private String fullName;
 
+    @NotBlank(message = "Khong trong phone")
     @JsonProperty("phone_number")
     private String phoneNumber;
 

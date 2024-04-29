@@ -53,6 +53,9 @@ public class Orders {
     @Column(name = "payment_method")
     private String paymentMethod;
 
+    @Column(name = "active")
+    private boolean active;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

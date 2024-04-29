@@ -1,5 +1,7 @@
 package com.shopcuatao.bangiay.repositories;
 
+import com.shopcuatao.bangiay.model.OrderDetails;
+import com.shopcuatao.bangiay.model.Orders;
 import com.shopcuatao.bangiay.model.ProductDetails;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductDetailRepo extends JpaRepository<ProductDetails,Integer> {
 
@@ -15,4 +18,5 @@ public interface ProductDetailRepo extends JpaRepository<ProductDetails,Integer>
 
     @Query("SELECT p FROM ProductDetails p Where p.id IN :productId")
     List<ProductDetails> findAllByIds(@Param("productId")List<Integer> productId);
+
 }

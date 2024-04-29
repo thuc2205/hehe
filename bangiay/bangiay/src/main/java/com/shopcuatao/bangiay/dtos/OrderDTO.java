@@ -1,10 +1,13 @@
 package com.shopcuatao.bangiay.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Min;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,7 +40,15 @@ public class OrderDTO {
     private String shippingAdress;
 
     @JsonProperty("shipping_date")
-    private LocalDate shippingDate;
+    private Date shippingDate;
+
+    @JsonProperty( "payment_method")
+    private String payMentmethod;
+
+    private boolean active;
+
+    @JsonProperty("cart_item")
+    List<CartItemDTO> cartItemDTOS;
 
 
 }
