@@ -7,5 +7,5 @@ import com.shopcuatao.bangiay.model.User;
 public interface IUserService {
     User createUser(UserDTO userDTO) throws DataNotFound;
 
-    String login(String phoneNumber,String password) throws DataNotFound;
+    String login(String phoneNumber,String password) throws Exception;
 }

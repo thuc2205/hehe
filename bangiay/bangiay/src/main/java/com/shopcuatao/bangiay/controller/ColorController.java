@@ -5,6 +5,7 @@ import com.shopcuatao.bangiay.dtos.ColorDTO;
 import com.shopcuatao.bangiay.model.Colors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -30,13 +31,16 @@ public class ColorController {
         return ResponseEntity.ok(colorDTO);
     }
     @GetMapping("")
-    public CompletableFuture<ResponseEntity<?>> getAll(
-            @RequestParam("page") int page,
-            @RequestParam("limit") int limit
-    ){
+    public CompletableFuture<String> getAll(Model model) {
         CompletableFuture<List<Colors>> listCompletableFuture = colorService.getAll();
-        return listCompletableFuture.thenApply(list -> ResponseEntity.ok(listCompletableFuture));
+        return listCompletableFuture.thenApply(list -> {
+            model.addAttribute("colors", list);
+            return "index"; // Trả về tên của trang HTML muốn hiển thị
+        });
     }
+
+
+
     @PutMapping({"/{id}"})
     public ResponseEntity<?> update(@PathVariable int id, @RequestBody ColorDTO colorDTO){
         Colors colors = colorService.update(id,colorDTO);

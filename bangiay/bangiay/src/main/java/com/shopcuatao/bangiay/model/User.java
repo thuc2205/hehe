@@ -56,7 +56,8 @@ public class User extends BaseCreated implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> simpleGrantedAuthorityList = new ArrayList<>();
-        simpleGrantedAuthorityList.add(new SimpleGrantedAuthority("ROLE_"+getRoleId().getName().toUpperCase()));
+//        simpleGrantedAuthorityList.add(new SimpleGrantedAuthority("ROLE_"+getRoleId().getName().toUpperCase()));
+        simpleGrantedAuthorityList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         return simpleGrantedAuthorityList;
     }
 

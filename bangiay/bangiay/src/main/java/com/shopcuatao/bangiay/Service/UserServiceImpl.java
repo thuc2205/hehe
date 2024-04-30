@@ -30,9 +30,9 @@ public class UserServiceImpl implements IUserService{
     public User createUser(UserDTO userDTO) throws DataNotFound {
         String phoneNumber =userDTO.getPhoneNumber();
         if(userRepo.existsByPhoneNumber(phoneNumber)){
-            throw new DataNotFound("khong thay phoneNumber");
+            throw new DataNotFound("da co phoneNumber");
         }
-        Role role = roleRepo.findById(2)
+        Role role = roleRepo.findById(1)
                 .orElseThrow(()-> new DataNotFound("khong thay id role"));
         User newUser = User.builder()
                 .fullname(userDTO.getFullName())
@@ -50,7 +50,7 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
-    public String login(String phoneNumber, String password) throws DataNotFound {
+    public String login(String phoneNumber, String password) throws Exception {
         Optional<User> user = userRepo.findByPhoneNumber(phoneNumber);
         if (user.isEmpty()){
             throw new DataNotFound("sai tk mk");

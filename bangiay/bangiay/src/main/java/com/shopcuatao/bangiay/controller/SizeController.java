@@ -31,8 +31,7 @@ public class SizeController {
     }
     @GetMapping("")
     public CompletableFuture<ResponseEntity<?>> getAllSize(
-            @RequestParam("page") int page,
-            @RequestParam("limit") int limit
+
     ){
         CompletableFuture<List<Sizes>> futureList = sizeService.getAllSizeAsync();
         return futureList.thenApply(list -> ResponseEntity.ok(list));

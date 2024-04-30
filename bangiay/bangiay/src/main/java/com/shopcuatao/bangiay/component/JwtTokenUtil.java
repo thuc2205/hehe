@@ -2,9 +2,12 @@
 
     import com.shopcuatao.bangiay.model.User;
     import io.jsonwebtoken.Claims;
+    import io.jsonwebtoken.JwtException;
     import io.jsonwebtoken.Jwts;
     import io.jsonwebtoken.SignatureAlgorithm;
     import io.jsonwebtoken.io.Decoders;
+    import io.jsonwebtoken.io.Encoder;
+    import io.jsonwebtoken.io.Encoders;
     import io.jsonwebtoken.security.Keys;
     import lombok.RequiredArgsConstructor;
     import org.springframework.beans.factory.annotation.Value;
@@ -16,22 +19,23 @@
     import java.util.Date;
     import java.util.HashMap;
     import java.util.Map;
-    import java.util.Objects;
     import java.util.function.Function;
 
     @Component
     @RequiredArgsConstructor
     public class JwtTokenUtil {
 
-        @Value("${jwt.secretkey}")
+        @Value("${jwt.secretKey}")
         private  String SECRET_KEY;
-        private static final long EXPIRATION_TIME = 86400000; // 1 day in milliseconds
+        @Value("${jwt.expiration}")
+        private int EXPIRATION_TIME; // 1 month in milliseconds
 
-        public String generateToken(User user) {
+        public String generateToken(User user) throws Exception{
             Date now = new Date();
+//            this.generateSecureKey();
             Date expiration = new Date(now.getTime() + EXPIRATION_TIME);
             try {
-                Map<String, String> claim = new HashMap<>();
+                Map<String, Object> claim = new HashMap<>();
                 claim.put("phoneNumber",user.getPhoneNumber());
                 String token = Jwts.builder()
                         .setClaims(claim)
@@ -47,17 +51,36 @@
 
         }
         private Key getSignInKey(){
-            byte[] bytes = generateSecureKey(32);
+            byte[] bytes = Decoders.BASE64.decode(SECRET_KEY);
+//            Keys.hmacShaKeyFor(Decoders.BASE64.decode("j8AMGduM5Yby30zsz3ZOvsRDuLNsng/+XfSJiezSJ4o="));
             return Keys.hmacShaKeyFor(bytes);
         }
-        private byte[] generateSecureKey(int keySizeInBytes) {
-            SecureRandom random = new SecureRandom(); // Initialize a SecureRandom object
-            byte[] key = new byte[keySizeInBytes]; // Create a byte array of the desired key size
-            random.nextBytes(key); // Generate random bytes into the key array
-            return key;
+        // Hàm trích xuất tất cả các claim từ token
+        private Claims extractAllClaims(String token) {
+            try {
+                return Jwts.parser()
+                        .setSigningKey(getSignInKey())
+                        .build()
+                        .parseClaimsJws(token)
+                        .getBody();
+            }catch (JwtException e){
+                e.printStackTrace();
+                return null;
+            }
+
         }
+
+        private String generateSecureKey() {
+            SecureRandom random = new SecureRandom();
+            byte[] key = new byte[32]; // Create a byte array of the desired key size
+            random.nextBytes(key);
+            String secretKey = Encoders.BASE64.encode(key);
+            return secretKey;
+        }
+
+
         public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-            final Claims claims = extractAllClaims(token);
+            final Claims claims = this.extractAllClaims(token);
             return claimsResolver.apply(claims);
         }
 
@@ -66,9 +89,6 @@
             return extractClaim(token, Claims::getSubject);
         }
 
-        // Hàm trích xuất tất cả các claim từ token
-        private Claims extractAllClaims(String token) {
-            return Jwts.parser().setSigningKey(getSignInKey()).build().parseClaimsJws(token).getBody();
-        }
+
 
     }

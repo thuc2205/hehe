@@ -5,6 +5,9 @@
     <title>Title</title>
 </head>
 <body>
-
+<h1>Danh sách màu</h1>
+<ul>
+    <li th:each="color : ${colors}" th:text="${color.name}"></li>
+</ul>
 </body>
 </html>
