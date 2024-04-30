@@ -31,13 +31,11 @@ public class ColorController {
         return ResponseEntity.ok(colorDTO);
     }
     @GetMapping("")
-    public CompletableFuture<String> getAll(Model model) {
+    public CompletableFuture<?> getAll(Model model) {
         CompletableFuture<List<Colors>> listCompletableFuture = colorService.getAll();
-        return listCompletableFuture.thenApply(list -> {
-            model.addAttribute("colors", list);
-            return "index"; // Trả về tên của trang HTML muốn hiển thị
-        });
+        return listCompletableFuture.thenApply(list -> ResponseEntity.ok(listCompletableFuture));
     }
+
 
 
 

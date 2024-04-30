@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -19,7 +18,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -84,7 +82,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         byPassTokens.add(Map.of("api/thuc/color", "GET"));
         byPassTokens.add(Map.of("api/thuc/brand", "GET"));
         byPassTokens.add(Map.of("api/thuc/categories", "GET"));
-        byPassTokens.add(Map.of("api/thuc/test", "GET"));
         byPassTokens.add(Map.of("api/thuc/user/dangki", "POST"));
         byPassTokens.add(Map.of("api/thuc/user/login", "POST"));
 
